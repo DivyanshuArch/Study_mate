@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="VertoxStudy - Your ultimate personal student study assistant, routine planner, project manager, Socratic problem solver, and progress tracker.">
+  <title>VertoxStudy | Elevate Your Learning</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Styling -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Decorative background mesh blobs -->
+  <div class="mesh-blob mesh-blob-1"></div>
+  <div class="mesh-blob mesh-blob-2"></div>
+  <div class="mesh-blob mesh-blob-3"></div>
+
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="app-sidebar">
+      <div class="sidebar-header">
+        <div class="logo">
+          <i data-lucide="graduation-cap" class="logo-icon"></i>
+          <span>Vertox<span>Study</span></span>
+        </div>
+      </div>
+      
+      <nav class="sidebar-nav">
+        <ul>
+          <li>
+            <button class="nav-btn active" data-view="dashboard" id="nav-dashboard">
+              <i data-lucide="layout-dashboard"></i>
+              <span>Dashboard</span>
+            </button>
+          </li>
+          <li>
+            <button class="nav-btn" data-view="timer" id="nav-timer">
+              <i data-lucide="timer"></i>
+              <span>Study Timer</span>
+              <span class="timer-badge hidden" id="sidebar-timer-badge">25:00</span>
+            </button>
+          </li>
+          <li>
+            <button class="nav-btn" data-view="routine" id="nav-routine">
+              <i data-lucide="calendar"></i>
+              <span>Routine Planner</span>
+            </button>
+          </li>
+          <li>
+            <button class="nav-btn" data-view="projects" id="nav-projects">
+              <i data-lucide="folder-kanban"></i>
+              <span>Projects</span>
+            </button>
+          </li>
+
+          <li>
+            <button class="nav-btn" data-view="resources" id="nav-resources">
+              <i data-lucide="compass"></i>
+              <span>Study Hub</span>
+            </button>
+          </li>
+
+          <li>
+            <button class="nav-btn" data-view="wiki" id="nav-wiki">
+              <i data-lucide="globe"></i>
+              <span>Research</span>
+            </button>
+          </li>
+          <li>
+            <button class="nav-btn" data-view="library" id="nav-library">
+              <i data-lucide="library"></i>
+              <span>Book Library</span>
+            </button>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="current-time-widget">
+          <div id="widget-time">00:00:00</div>
+          <div id="widget-date">Sunday, 19 July</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="app-main">
+      <header class="main-header">
+        <div class="header-title">
+          <h1 id="view-title">Dashboard</h1>
+          <p id="view-subtitle" class="text-muted">Welcome back! Ready for a productive study day?</p>
+        </div>
+        <div class="header-actions">
+          <button class="btn btn-secondary btn-icon" id="btn-toggle-timer-widget" title="Quick Timer Toggle">
+            <i data-lucide="play"></i>
+          </button>
+          <button class="btn btn-secondary btn-icon" id="btn-open-settings" title="Study Settings">
+            <i data-lucide="settings"></i>
+          </button>
+        </div>
+      </header>
+
+      <div class="view-content">
+        <!-- ================= DASHBOARD VIEW ================= -->
+        <section id="view-dashboard" class="app-view">
+          <div class="dashboard-grid">
+            <!-- KPI Summary Cards -->
+            <div class="kpi-card glass-panel">
+              <div class="kpi-icon-wrapper purple">
+                <i data-lucide="clock"></i>
+              </div>
+              <div class="kpi-info">
+                <span class="kpi-label">Study Time Today</span>
+                <span class="kpi-value" id="kpi-study-time">0m</span>
+              </div>
+            </div>
+            
+            <div class="kpi-card glass-panel">
+              <div class="kpi-icon-wrapper emerald">
+                <i data-lucide="check-circle"></i>
+              </div>
+              <div class="kpi-info">
+                <span class="kpi-label">Routine Adherence</span>
+                <span class="kpi-value" id="kpi-routine-rate">0%</span>
+              </div>
+            </div>
+
+            <div class="kpi-card glass-panel">
+              <div class="kpi-icon-wrapper blue">
+                <i data-lucide="clipboard-list"></i>
+              </div>
+              <div class="kpi-info">
+                <span class="kpi-label">Projects Progress</span>
+                <span class="kpi-value" id="kpi-project-milestones">0/0</span>
+              </div>
+            </div>
+
+            <div class="kpi-card glass-panel">
+              <div class="kpi-icon-wrapper amber">
+                <i data-lucide="book"></i>
+              </div>
+              <div class="kpi-info">
+                <span class="kpi-label">Pinned eBooks</span>
+                <span class="kpi-value" id="kpi-books-pinned">0</span>
+              </div>
+            </div>
+
+            <!-- Charts and Routine Row -->
+            <div class="dashboard-chart-section glass-panel col-span-2">
+              <div class="card-header">
+                <h3>Weekly Study Time</h3>
+                <span class="text-muted">Last 7 Days (Minutes)</span>
+              </div>
+              <div class="chart-container">
+                <!-- Custom SVG Bar Chart -->
+                <svg id="weekly-study-chart" viewBox="0 0 500 220" width="100%" height="100%">
+                  <!-- Chart bars and lines will be injected via JS -->
+                </svg>
+              </div>
+            </div>
+
+            <div class="dashboard-routine-section glass-panel">
+              <div class="card-header">
+                <h3>Today's Routine</h3>
+                <span class="text-muted" id="dashboard-routine-date">July 19</span>
+              </div>
+              <div class="dashboard-routine-list scrollable" id="dashboard-routine-list">
+                <!-- Routine items checklist injected here -->
+                <div class="empty-state">
+                  <i data-lucide="calendar-check"></i>
+                  <p>No routine scheduled for today.</p>
+                  <button class="btn btn-sm btn-primary" onclick="app.switchView('routine')">Go to Routine Planner</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Projects & History Row -->
+            <div class="dashboard-projects-section glass-panel col-span-2">
+              <div class="card-header">
+                <h3>Project Standings</h3>
+                <button class="btn btn-sm btn-link" onclick="app.switchView('projects')">View All Projects</button>
+              </div>
+              <div class="dashboard-project-list scrollable" id="dashboard-project-list">
+                <!-- Active project status list injected here -->
+                <div class="empty-state">
+                  <i data-lucide="folder-git-2"></i>
+                  <p>No active projects found.</p>
+                  <button class="btn btn-sm btn-primary" onclick="app.switchView('projects')">Create Project</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="dashboard-history-section glass-panel">
+              <div class="card-header">
+                <h3>Recent Activities</h3>
+                <button class="btn btn-sm btn-link" id="btn-clear-history">Clear</button>
+              </div>
+              <div class="dashboard-history-list scrollable" id="dashboard-history-list">
+                <!-- Recent timer study logs injected here -->
+                <div class="empty-state">
+                  <i data-lucide="hourglass"></i>
+                  <p>No study logs yet.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+
+        <!-- ================= STUDY TIMER VIEW ================= -->
+        <section id="view-timer" class="app-view hidden">
+          <div class="timer-layout">
+            <div class="timer-card glass-panel">
+              <div class="timer-modes">
+                <button class="mode-btn active" data-mode="pomodoro">Pomodoro</button>
+                <button class="mode-btn" data-mode="shortBreak">Short Break</button>
+                <button class="mode-btn" data-mode="longBreak">Long Break</button>
+              </div>
+              
+              <div class="timer-display-container">
+                <!-- SVG countdown visualizer circle -->
+                <svg class="timer-svg" viewBox="0 0 220 220">
+                  <circle class="timer-ring-bg" cx="110" cy="110" r="100"></circle>
+                  <circle class="timer-ring-progress" id="timer-progress-ring" cx="110" cy="110" r="100"></circle>
+                </svg>
+                <div class="timer-digits-wrapper">
+                  <span id="timer-time-display">25:00</span>
+                  <span id="timer-status-display" class="text-muted">Focus Session</span>
+                </div>
+              </div>
+
+              <!-- Subject Selector -->
+              <div class="timer-subject-picker">
+                <label for="timer-subject-select">Focus Subject:</label>
+                <div class="custom-select-wrapper">
+                  <select id="timer-subject-select">
+                    <option value="General">General Study</option>
+                    <option value="Math">Mathematics</option>
+                    <option value="Science">Science / Physics</option>
+                    <option value="Coding">Coding / Computer Science</option>
+                    <option value="Writing">Writing / Literature</option>
+                    <option value="Exam Prep">Exam Preparation</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="timer-controls">
+                <button class="btn btn-secondary btn-lg btn-icon" id="timer-reset" title="Reset Timer">
+                  <i data-lucide="rotate-ccw"></i>
+                </button>
+                <button class="btn btn-primary btn-lg" id="timer-toggle">
+                  <i data-lucide="play" id="timer-toggle-icon"></i>
+                  <span id="timer-toggle-text">Start Focus</span>
+                </button>
+                <button class="btn btn-secondary btn-lg btn-icon" id="timer-skip" title="Skip Session">
+                  <i data-lucide="skip-forward"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Timer Guidelines Card -->
+            <div class="timer-info-card glass-panel">
+              <h3>The Pomodoro Technique</h3>
+              <ul class="pomodoro-rules">
+                <li>
+                  <div class="rule-num">1</div>
+                  <div class="rule-text"><strong>Choose a task</strong> you want to complete and select your subject.</div>
+                </li>
+                <li>
+                  <div class="rule-num">2</div>
+                  <div class="rule-text"><strong>Work intensely</strong> for 25 minutes until the chime rings. Avoid distractions.</div>
+                </li>
+                <li>
+                  <div class="rule-num">3</div>
+                  <div class="rule-text"><strong>Take a 5-minute break</strong>. Stretch, hydrate, or relax.</div>
+                </li>
+                <li>
+                  <div class="rule-num">4</div>
+                  <div class="rule-text"><strong>After 4 focus cycles</strong>, enjoy a longer 15-30 minute break.</div>
+                </li>
+              </ul>
+              <div class="timer-tip">
+                <i data-lucide="lightbulb" class="text-amber"></i>
+                <p>Ensure your audio is enabled to hear the synthesized chime when your focus block completes!</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+
+        <!-- ================= ROUTINE PLANNER VIEW ================= -->
+        <section id="view-routine" class="app-view hidden">
+          <div class="routine-layout">
+            <div class="routine-sidebar glass-panel">
+              <div class="card-header-with-action">
+                <h3>Weekly Routine List</h3>
+                <button class="btn btn-sm btn-primary" id="btn-add-routine">
+                  <i data-lucide="plus"></i> Add Event
+                </button>
+              </div>
+
+              <!-- Day Filter Tabs -->
+              <div class="day-selector-strip">
+                <button class="day-tab-btn active" data-day="Mon">M</button>
+                <button class="day-tab-btn" data-day="Tue">T</button>
+                <button class="day-tab-btn" data-day="Wed">W</button>
+                <button class="day-tab-btn" data-day="Thu">T</button>
+                <button class="day-tab-btn" data-day="Fri">F</button>
+                <button class="day-tab-btn" data-day="Sat">S</button>
+                <button class="day-tab-btn" data-day="Sun">S</button>
+              </div>
+
+              <!-- Routine list filtered by active day tab -->
+              <div class="routine-list scrollable" id="routine-list">
+                <!-- Dynamic routines injected here -->
+              </div>
+            </div>
+
+            <!-- Daily Tracker Card -->
+            <div class="routine-tracker-panel glass-panel">
+              <div class="card-header">
+                <h3>Today's Routine Check-in</h3>
+                <p class="text-muted">Stay consistent! Mark off your schedule items as you finish them.</p>
+              </div>
+              
+              <div class="routine-tracker-progress">
+                <div class="progress-info">
+                  <span>Daily Adherence Progress</span>
+                  <span id="routine-progress-percentage">0%</span>
+                </div>
+                <div class="progress-bar-container">
+                  <div class="progress-bar-fill" id="routine-progress-bar" style="width: 0%;"></div>
+                </div>
+              </div>
+
+              <div class="tracker-list scrollable" id="routine-tracker-list">
+                <!-- Checked items for today injected here -->
+              </div>
+            </div>
+          </div>
+        </section>
+
+
+        <!-- ================= PROJECTS VIEW ================= -->
+        <section id="view-projects" class="app-view hidden">
+          <div class="projects-actions-bar">
+            <div class="search-filters">
+              <!-- Simple input filtering -->
+              <div class="search-input-wrapper">
+                <i data-lucide="search" class="search-icon"></i>
+                <input type="text" id="project-search-input" placeholder="Search projects...">
+              </div>
+              <div class="select-filter-wrapper">
+                <select id="project-priority-filter">
+                  <option value="all">All Priorities</option>
+                  <option value="high">High Priority</option>
+                  <option value="medium">Medium Priority</option>
+                  <option value="low">Low Priority</option>
+                </select>
+              </div>
+            </div>
+            <button class="btn btn-primary" id="btn-create-project">
+              <i data-lucide="plus"></i> New Project
+            </button>
+          </div>
+
+          <!-- Project Cards Grid -->
+          <div class="projects-grid" id="projects-grid">
+            <!-- Dynamic cards injected here -->
+          </div>
+        </section>
+
+
+
+
+        <!-- ================= BOOK LIBRARY VIEW ================= -->
+        <section id="view-library" class="app-view hidden">
+          <div class="wiki-search-box glass-panel">
+            <div class="wiki-search-row">
+              <div class="search-input-wrapper">
+                <i data-lucide="search" class="search-icon"></i>
+                <input type="text" id="library-search-input" placeholder="Search Gutenberg eBooks by title, author, or keyword (e.g. Shakespeare, Physics, Philosophy)...">
+              </div>
+              <button class="btn btn-primary" id="btn-library-search">Search Books</button>
+            </div>
+            <div class="wiki-suggestions" id="library-suggestions">
+              <span class="suggestion-tag lib-tag active" data-topic="">All Popular</span>
+              <span class="suggestion-tag lib-tag" data-topic="Fiction">Fiction</span>
+              <span class="suggestion-tag lib-tag" data-topic="History">History</span>
+              <span class="suggestion-tag lib-tag" data-topic="Science">Science</span>
+              <span class="suggestion-tag lib-tag" data-topic="Philosophy">Philosophy</span>
+              <span class="suggestion-tag lib-tag" data-topic="Poetry">Poetry</span>
+            </div>
+          </div>
+
+          <!-- Books Grid -->
+          <div class="library-results-panel glass-panel" style="padding: 24px; min-height: 400px; margin-top: 24px;">
+            <div class="wiki-loading hidden" id="library-loading">
+              <div class="skeleton-image-grid">
+                <div class="skeleton-img-card"></div>
+                <div class="skeleton-img-card"></div>
+                <div class="skeleton-img-card"></div>
+                <div class="skeleton-img-card"></div>
+              </div>
+            </div>
+
+            <div class="library-grid" id="library-grid">
+              <!-- Injected via app.js -->
+            </div>
+
+            <div class="empty-state hidden" id="library-empty-state">
+              <i data-lucide="book-x"></i>
+              <h3>No Books Found</h3>
+              <p>Try refining your search terms or selecting a different category.</p>
+            </div>
+          </div>
+        </section>
+
+
+        <!-- ================= STUDY RESOURCES HUB VIEW ================= -->
+        <section id="view-resources" class="app-view hidden">
+          <div class="wiki-layout">
+            <!-- Mode Selector (Courses vs Labs vs Saved) -->
+            <div class="research-modes-bar">
+              <button class="res-mode-btn resource-mode-btn active" data-res-mode="courses">Curated Courses</button>
+              <button class="res-mode-btn resource-mode-btn" data-res-mode="labs">Interactive Labs</button>
+              <button class="res-mode-btn resource-mode-btn" data-res-mode="saved">My Bookmarks</button>
+            </div>
+
+            <!-- TAB 1: Curated Courses -->
+            <div class="resource-sub-section" id="resource-courses-section">
+              <!-- Search Bar -->
+              <div class="glass-panel" style="padding: 16px; margin-top: 20px; display: flex; gap: 12px; align-items: center;">
+                <div style="flex: 1; position: relative;">
+                  <i data-lucide="search" style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-muted); width: 18px; height: 18px;"></i>
+                  <input type="text" id="youtube-search-input" placeholder="Search YouTube study topics (e.g. React tutorial, organic chemistry, linear algebra)..." style="width: 100%; padding: 12px 16px 12px 48px; border-radius: var(--radius-md); border: 1px solid var(--glass-border); background: rgba(5,4,8,0.4); color: #fff; font-family: inherit; font-size: 0.95rem; outline: none; transition: border 0.2s;">
+                </div>
+                <button class="btn btn-primary" id="btn-youtube-search" style="padding: 12px 24px;">Search</button>
+              </div>
+
+              <!-- Search Results Container -->
+              <div id="youtube-search-results-section" class="glass-panel hidden" style="padding: 24px; margin-top: 20px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+                  <h3 style="display:flex; align-items:center; gap:8px;">
+                    <i data-lucide="youtube" style="color:#ff0000;"></i> YouTube Search Results
+                  </h3>
+                  <button class="btn btn-secondary btn-sm" id="btn-clear-search-results">Clear Results</button>
+                </div>
+                <div class="library-grid" id="youtube-search-results-grid">
+                  <!-- Search items loaded here -->
+                </div>
+              </div>
+
+              <div id="curated-courses-list" style="display: flex; flex-direction: column; gap: 30px; margin-top: 20px;">
+                
+                <!-- Computer Science -->
+                <div class="glass-panel" style="padding: 24px;">
+                  <h3 style="display:flex; align-items:center; gap:8px; margin-bottom:16px;">
+                    <i data-lucide="terminal" style="color:var(--accent-purple);"></i> Computer Science Lectures
+                  </h3>
+                  <div class="library-grid">
+                    <div class="book-card glass-panel curated-course-card" data-video-url="https://www.youtube.com/embed/videoseries?list=PLhQjrBD2T382-x8tQv0655s45lH5iVq-C">
+                      <div class="book-cover-wrapper" style="aspect-ratio: 16/9; background:#000;">
+                        <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=300&auto=format&fit=crop" alt="Harvard CS50" style="width:100%; height:100%; object-fit:cover;">
+                        <div class="play-overlay"><i data-lucide="play-circle"></i></div>
+                      </div>
+                      <div class="book-card-info" style="margin-top:8px;">
+                        <span class="book-title">Harvard CS50 (Introduction to CS)</span>
+                        <span class="book-author">Harvard University</span>
+                        <span class="book-subject-tag">Complete Full-Course Lectures</span>
+                      </div>
+                    </div>
+
+                    <div class="book-card glass-panel curated-course-card" data-video-url="https://www.youtube.com/embed/8mAITcNt7oI">
+                      <div class="book-cover-wrapper" style="aspect-ratio: 16/9; background:#000;">
+                        <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=300&auto=format&fit=crop" alt="Python Tutorial" style="width:100%; height:100%; object-fit:cover;">
+                        <div class="play-overlay"><i data-lucide="play-circle"></i></div>
+                      </div>
+                      <div class="book-card-info" style="margin-top:8px;">
+                        <span class="book-title">Python Programming for Beginners</span>
+                        <span class="book-author">freeCodeCamp.org</span>
+                        <span class="book-subject-tag">6+ Hours Coding Bootcamp</span>
+                      </div>
+                    </div>
+
+                    <div class="book-card glass-panel curated-course-card" data-video-url="https://www.youtube.com/embed/p0rmLdQzQ5k">
+                      <div class="book-cover-wrapper" style="aspect-ratio: 16/9; background:#000;">
+                        <img src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?q=80&w=300&auto=format&fit=crop" alt="Web Dev" style="width:100%; height:100%; object-fit:cover;">
+                        <div class="play-overlay"><i data-lucide="play-circle"></i></div>
+                      </div>
+                      <div class="book-card-info" style="margin-top:8px;">
+                        <span class="book-title">Web Development Foundation Course</span>
+                        <span class="book-author">freeCodeCamp.org</span>
+                        <span class="book-subject-tag">Learn HTML5, CSS3, & Modern JS</span>
+                      </div>
+                    </div>
+
+                    <div class="book-card glass-panel curated-course-card" data-video-url="https://www.youtube.com/embed/videoseries?list=PLUl4u3cNGP63EdVPNLG3ToM6LaEUuStEY">
+                      <div class="book-cover-wrapper" style="aspect-ratio: 16/9; background:#000;">
+                        <img src="https://images.unsplash.com/photo-1618401471353-b98aedd07871?q=80&w=300&auto=format&fit=crop" alt="Algorithms" style="width:100%; height:100%; object-fit:cover;">
+                        <div class="play-overlay"><i data-lucide="play-circle"></i></div>
+                      </div>
+                      <div class="book-card-info" style="margin-top:8px;">
+                        <span class="book-title">Introduction to Algorithms</span>
+                        <span class="book-author">MIT OpenCourseWare</span>
+                        <span class="book-subject-tag">Core sorting & search algorithms</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Mathematics -->
+                <div class="glass-panel" style="padding: 24px;">
+                  <h3 style="display:flex; align-items:center; gap:8px; margin-bottom:16px;">
+                    <i data-lucide="binary" style="color:var(--accent-emerald);"></i> Mathematics Lectures
+                  </h3>
+                  <div class="library-grid">
+                    <div class="book-card glass-panel curated-course-card" data-video-url="https://www.youtube.com/embed/videoseries?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab">
+                      <div class="book-cover-wrapper" style="aspect-ratio: 16/9; background:#000;">
+                        <img src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?q=80&w=300&auto=format&fit=crop" alt="Linear Algebra" style="width:100%; height:100%; object-fit:cover;">
+                        <div class="play-overlay"><i data-lucide="play-circle"></i></div>
+                      </div>
+                      <div class="book-card-info" style="margin-top:8px;">
+                        <span class="book-title">Essence of Linear Algebra</span>
+                        <span class="book-author">3Blue1Brown</span>
+                        <span class="book-subject-tag">Visualizing Core Math Concepts</span>
+                      </div>
+                    </div>
+
+                    <div class="book-card glass-panel curated-course-card" data-video-url="https://www.youtube.com/embed/videoseries?list=PL0-GT3co4r2wlh6UHTUeQsrf3mlS2lk6x">
+                      <div class="book-cover-wrapper" style="aspect-ratio: 16/9; background:#000;">
+                        <img src="https://images.unsplash.com/photo-1509228468518-180dd4864904?q=80&w=300&auto=format&fit=crop" alt="Calculus" style="width:100%; height:100%; object-fit:cover;">
+                        <div class="play-overlay"><i data-lucide="play-circle"></i></div>
+                      </div>
+                      <div class="book-card-info" style="margin-top:8px;">
+                        <span class="book-title">Essence of Calculus Series</span>
+                        <span class="book-author">3Blue1Brown</span>
+                        <span class="book-subject-tag">Geometric & Visual Intuitions</span>
+                      </div>
+                    </div>
+
+                    <div class="book-card glass-panel curated-course-card" data-video-url="https://www.youtube.com/embed/videoseries?list=PL05141079C32788E5">
+                      <div class="book-cover-wrapper" style="aspect-ratio: 16/9; background:#000;">
+                        <img src="https://images.unsplash.com/photo-1453733190148-c44698c26588?q=80&w=300&auto=format&fit=crop" alt="Calculus MIT" style="width:100%; height:100%; object-fit:cover;">
+                        <div class="play-overlay"><i data-lucide="play-circle"></i></div>
+                      </div>
+                      <div class="book-card-info" style="margin-top:8px;">
+                        <span class="book-title">Single Variable Calculus (MIT 18.01)</span>
+                        <span class="book-author">MIT OpenCourseWare</span>
+                        <span class="book-subject-tag">Comprehensive Academic Lectures</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Science & Physics -->
+                <div class="glass-panel" style="padding: 24px;">
+                  <h3 style="display:flex; align-items:center; gap:8px; margin-bottom:16px;">
+                    <i data-lucide="atom" style="color:var(--accent-amber);"></i> Science & Physics Lectures
+                  </h3>
+                  <div class="library-grid">
+                    <div class="book-card glass-panel curated-course-card" data-video-url="https://www.youtube.com/embed/videoseries?list=PL8dPuuaLjXtN0ge7yDk_UA0ldZJdhwkoV">
+                      <div class="book-cover-wrapper" style="aspect-ratio: 16/9; background:#000;">
+                        <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=300&auto=format&fit=crop" alt="Physics Course" style="width:100%; height:100%; object-fit:cover;">
+                        <div class="play-overlay"><i data-lucide="play-circle"></i></div>
+                      </div>
+                      <div class="book-card-info" style="margin-top:8px;">
+                        <span class="book-title">CrashCourse Physics Lectures</span>
+                        <span class="book-author">CrashCourse / PBS Digital</span>
+                        <span class="book-subject-tag">Mechanics, Light & Quantum Physics</span>
+                      </div>
+                    </div>
+
+                    <div class="book-card glass-panel curated-course-card" data-video-url="https://www.youtube.com/embed/videoseries?list=PL8dPuuaLjXtPHzzYuWy6fYEaX9mQQRYgr">
+                      <div class="book-cover-wrapper" style="aspect-ratio: 16/9; background:#000;">
+                        <img src="https://images.unsplash.com/photo-1532187643603-ba119ca4109e?q=80&w=300&auto=format&fit=crop" alt="Chemistry" style="width:100%; height:100%; object-fit:cover;">
+                        <div class="play-overlay"><i data-lucide="play-circle"></i></div>
+                      </div>
+                      <div class="book-card-info" style="margin-top:8px;">
+                        <span class="book-title">CrashCourse Chemistry Course</span>
+                        <span class="book-author">CrashCourse / PBS Digital</span>
+                        <span class="book-subject-tag">Equations, Reactions, & Lab Safety</span>
+                      </div>
+                    </div>
+
+                    <div class="book-card glass-panel curated-course-card" data-video-url="https://www.youtube.com/embed/videoseries?list=PL8dPuuaLjXtPW_ofbxdHNciuLoTRLPMgB">
+                      <div class="book-cover-wrapper" style="aspect-ratio: 16/9; background:#000;">
+                        <img src="https://images.unsplash.com/photo-1530026405186-ed1ea0ac7a63?q=80&w=300&auto=format&fit=crop" alt="Biology" style="width:100%; height:100%; object-fit:cover;">
+                        <div class="play-overlay"><i data-lucide="play-circle"></i></div>
+                      </div>
+                      <div class="book-card-info" style="margin-top:8px;">
+                        <span class="book-title">CrashCourse Biology Lectures</span>
+                        <span class="book-author">CrashCourse / PBS Digital</span>
+                        <span class="book-subject-tag">Genetics, Evolution, & Ecology</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div> <!-- close curated-courses-list -->
+            </div> <!-- close resource-courses-section -->
+
+            <!-- TAB 2: Interactive Labs -->
+            <div class="resource-sub-section hidden" id="resource-labs-section">
+              <div style="display: flex; flex-direction: column; gap: 30px; margin-top: 20px;">
+                
+                <!-- Interactive Physics Simulations -->
+                <div class="glass-panel" style="padding: 24px;">
+                  <h3 style="display:flex; align-items:center; gap:8px; margin-bottom:16px;">
+                    <i data-lucide="flask-conical" style="color:var(--accent-amber);"></i> Physics Virtual Labs
+                  </h3>
+                  <div class="library-grid">
+                    <div class="book-card glass-panel curated-lab-card" data-lab-url="https://phet.colorado.edu/sims/html/circuit-construction-kit-dc-virtual-lab/latest/circuit-construction-kit-dc-virtual-lab_all.html">
+                      <div class="book-cover-wrapper" style="aspect-ratio: 16/9; background:#000;">
+                        <img src="https://images.unsplash.com/photo-1581092334257-ed32288a780d?q=80&w=300&auto=format&fit=crop" alt="Circuit Lab" style="width:100%; height:100%; object-fit:cover;">
+                        <div class="play-overlay"><i data-lucide="sparkles"></i></div>
+                      </div>
+                      <div class="book-card-info" style="margin-top:8px;">
+                        <span class="book-title">DC Circuit Simulator Virtual Lab</span>
+                        <span class="book-author">PhET Interactive Simulations</span>
+                        <span class="book-subject-tag">Build and test virtual circuits</span>
+                      </div>
+                    </div>
+
+                    <div class="book-card glass-panel curated-lab-card" data-lab-url="https://phet.colorado.edu/sims/html/forces-and-motion-basics/latest/forces-and-motion-basics_all.html">
+                      <div class="book-cover-wrapper" style="aspect-ratio: 16/9; background:#000;">
+                        <img src="https://images.unsplash.com/photo-1461360370896-922624d12aa1?q=80&w=300&auto=format&fit=crop" alt="Force Lab" style="width:100%; height:100%; object-fit:cover;">
+                        <div class="play-overlay"><i data-lucide="sparkles"></i></div>
+                      </div>
+                      <div class="book-card-info" style="margin-top:8px;">
+                        <span class="book-title">Forces, Friction, & Acceleration Lab</span>
+                        <span class="book-author">PhET Interactive Simulations</span>
+                        <span class="book-subject-tag">Newtonian Physics Interactive Lab</span>
+                      </div>
+                    </div>
+
+                    <div class="book-card glass-panel curated-lab-card" data-lab-url="https://phet.colorado.edu/sims/html/wave-interference/latest/wave-interference_all.html">
+                      <div class="book-cover-wrapper" style="aspect-ratio: 16/9; background:#000;">
+                        <img src="https://images.unsplash.com/photo-1507668077129-56e32842fceb?q=80&w=300&auto=format&fit=crop" alt="Wave Lab" style="width:100%; height:100%; object-fit:cover;">
+                        <div class="play-overlay"><i data-lucide="sparkles"></i></div>
+                      </div>
+                      <div class="book-card-info" style="margin-top:8px;">
+                        <span class="book-title">Wave Interference Simulator</span>
+                        <span class="book-author">PhET Interactive Simulations</span>
+                        <span class="book-subject-tag">Explore light, sound, and water waves</span>
+                      </div>
+                    </div>
+
+                    <div class="book-card glass-panel curated-lab-card" data-lab-url="https://phet.colorado.edu/sims/html/states-of-matter/latest/states-of-matter_all.html">
+                      <div class="book-cover-wrapper" style="aspect-ratio: 16/9; background:#000;">
+                        <img src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?q=80&w=300&auto=format&fit=crop" alt="States of Matter" style="width:100%; height:100%; object-fit:cover;">
+                        <div class="play-overlay"><i data-lucide="sparkles"></i></div>
+                      </div>
+                      <div class="book-card-info" style="margin-top:8px;">
+                        <span class="book-title">States of Matter (Gas, Liquid, Solid)</span>
+                        <span class="book-author">PhET Interactive Simulations</span>
+                        <span class="book-subject-tag">Molecules, heat, pressure simulations</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Interactive Chemistry Labs -->
+                <div class="glass-panel" style="padding: 24px;">
+                  <h3 style="display:flex; align-items:center; gap:8px; margin-bottom:16px;">
+                    <i data-lucide="beaker" style="color:var(--accent-emerald);"></i> Chemistry Virtual Labs
+                  </h3>
+                  <div class="library-grid">
+                    <div class="book-card glass-panel curated-lab-card" data-lab-url="https://phet.colorado.edu/sims/html/ph-scale/latest/ph-scale_all.html">
+                      <div class="book-cover-wrapper" style="aspect-ratio: 16/9; background:#000;">
+                        <img src="https://images.unsplash.com/photo-1603126857599-f6e157fa2fe6?q=80&w=300&auto=format&fit=crop" alt="pH Scale" style="width:100%; height:100%; object-fit:cover;">
+                        <div class="play-overlay"><i data-lucide="sparkles"></i></div>
+                      </div>
+                      <div class="book-card-info" style="margin-top:8px;">
+                        <span class="book-title">pH Scale (Acid, Base, & Neutrality)</span>
+                        <span class="book-author">PhET Interactive Simulations</span>
+                        <span class="book-subject-tag">Measure acidity level of solutions</span>
+                      </div>
+                    </div>
+
+                    <div class="book-card glass-panel curated-lab-card" data-lab-url="https://phet.colorado.edu/sims/html/molecule-shapes/latest/molecule-shapes_all.html">
+                      <div class="book-cover-wrapper" style="aspect-ratio: 16/9; background:#000;">
+                        <img src="https://images.unsplash.com/photo-1507413245164-6160d8298b31?q=80&w=300&auto=format&fit=crop" alt="Molecule Shapes" style="width:100%; height:100%; object-fit:cover;">
+                        <div class="play-overlay"><i data-lucide="sparkles"></i></div>
+                      </div>
+                      <div class="book-card-info" style="margin-top:8px;">
+                        <span class="book-title">Interactive 3D Molecule Builder</span>
+                        <span class="book-author">PhET Interactive Simulations</span>
+                        <span class="book-subject-tag">Atom bonding, geometry, & shapes</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Mathematics Labs -->
+                <div class="glass-panel" style="padding: 24px;">
+                  <h3 style="display:flex; align-items:center; gap:8px; margin-bottom:16px;">
+                    <i data-lucide="calculator" style="color:var(--accent-purple);"></i> Mathematics Virtual Labs
+                  </h3>
+                  <div class="library-grid">
+                    <div class="book-card glass-panel curated-lab-card" data-lab-url="https://phet.colorado.edu/sims/html/graphing-quadratics/latest/graphing-quadratics_all.html">
+                      <div class="book-cover-wrapper" style="aspect-ratio: 16/9; background:#000;">
+                        <img src="https://images.unsplash.com/photo-1509228468518-180dd4864904?q=80&w=300&auto=format&fit=crop" alt="Graphing Simulation" style="width:100%; height:100%; object-fit:cover;">
+                        <div class="play-overlay"><i data-lucide="sparkles"></i></div>
+                      </div>
+                      <div class="book-card-info" style="margin-top:8px;">
+                        <span class="book-title">Interactive Graphing Lab (Quadratic)</span>
+                        <span class="book-author">PhET Interactive Simulations</span>
+                        <span class="book-subject-tag">Physics/Math Interactive Lab</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- TAB 3: Saved Materials -->
+            <div class="resource-sub-section hidden" id="resource-saved-section" style="margin-top:20px;">
+              <div class="workspace-header glass-panel" style="padding:16px 24px; margin-bottom:20px; display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                  <h3 style="color:#fff;">My Bookmarks Vault</h3>
+                  <p class="text-muted" style="font-size:0.8rem;">Add custom URLs to study video lectures or guides inside VertoxStudy</p>
+                </div>
+                <button class="btn btn-primary" id="btn-open-add-resource">
+                  <i data-lucide="plus-circle"></i> Add Resource Link
+                </button>
+              </div>
+
+              <!-- Saved Grid -->
+              <div class="library-grid" id="saved-resources-grid">
+                <!-- Injected via app.js -->
+              </div>
+
+              <div class="empty-state hidden" id="saved-resources-empty-state">
+                <i data-lucide="video-off" style="width:48px; height:48px; color:var(--text-muted);"></i>
+                <h3>No Saved Bookmarks</h3>
+                <p>Bookmark custom YouTube videos, PDFs, or articles to read and view them directly inside the app.</p>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+
+        <!-- ================= RESEARCH VIEW ================= -->
+        <section id="view-wiki" class="app-view hidden">
+          <div class="wiki-layout">
+            <!-- Mode Selector -->
+            <div class="research-modes-bar">
+              <button class="res-mode-btn active" data-mode="wiki">Article Lookup</button>
+              <button class="res-mode-btn" data-mode="images">Image Search</button>
+            </div>
+
+            <!-- MODE 1: Wikipedia Article Search Section -->
+            <div class="research-sub-section" id="research-wiki-section">
+              <div class="wiki-search-box glass-panel">
+                <div class="wiki-search-row">
+                  <div class="search-input-wrapper">
+                    <i data-lucide="search" class="search-icon"></i>
+                    <input type="text" id="wiki-search-input" placeholder="Search Wikipedia (e.g., Photosynthesis, Einstein, Quantum Computing, Cell)...">
+                  </div>
+                  <button class="btn btn-primary" id="btn-wiki-search">Search Wiki</button>
+                </div>
+                <div class="wiki-suggestions" id="wiki-suggestions">
+                  <span class="suggestion-tag">Photosynthesis</span>
+                  <span class="suggestion-tag">Feynman Technique</span>
+                  <span class="suggestion-tag">Isaac Newton</span>
+                  <span class="suggestion-tag">Quantum Computing</span>
+                  <span class="suggestion-tag">DNA</span>
+                </div>
+              </div>
+
+              <!-- Wiki Result Content Panel -->
+              <div class="wiki-result-panel glass-panel" id="wiki-result-panel">
+                <div class="empty-state" id="wiki-empty-state">
+                  <i data-lucide="search-code" style="width:48px; height:48px; color:var(--accent-purple);"></i>
+                  <h3>Wikipedia Reference Tool</h3>
+                  <p class="text-muted" style="max-width: 420px; margin-top: 8px;">Lookup academic concepts, definitions, historical figures, or diagrams. View clean descriptions and click images to view details in high resolution.</p>
+                </div>
+                <div class="wiki-loading hidden" id="wiki-loading">
+                  <div class="skeleton-loader">
+                    <div class="skeleton-title"></div>
+                    <div class="skeleton-text"></div>
+                    <div class="skeleton-text"></div>
+                    <div class="skeleton-text"></div>
+                  </div>
+                </div>
+                <div class="wiki-content-area hidden" id="wiki-content-area">
+                  <!-- Injected via app.js -->
+                </div>
+              </div>
+            </div>
+
+            <!-- MODE 2: Visual Commons Image Search Section (Hidden by default) -->
+            <div class="research-sub-section hidden" id="research-images-section">
+              <div class="wiki-search-box glass-panel">
+                <div class="wiki-search-row">
+                  <div class="search-input-wrapper">
+                    <i data-lucide="search" class="search-icon"></i>
+                    <input type="text" id="wiki-image-search-input" placeholder="Search Media & Diagrams (e.g., Atom Model, Solar System, Mitochondria, Heart)...">
+                  </div>
+                  <button class="btn btn-primary" id="btn-wiki-image-search">Search Images</button>
+                </div>
+                <div class="wiki-suggestions" id="wiki-image-suggestions">
+                  <span class="suggestion-tag img-tag">Atom Model</span>
+                  <span class="suggestion-tag img-tag">Solar System</span>
+                  <span class="suggestion-tag img-tag">Human Brain</span>
+                  <span class="suggestion-tag img-tag">Mitochondria</span>
+                  <span class="suggestion-tag img-tag">Double Helix</span>
+                </div>
+              </div>
+
+              <!-- Image Search Results Grid -->
+              <div class="image-results-panel glass-panel" style="padding: 24px; min-height: 350px;">
+                <div class="empty-state" id="wiki-image-empty-state">
+                  <i data-lucide="image-search" style="width:48px; height:48px; color:var(--accent-indigo);"></i>
+                  <h3>Visual Reference Search</h3>
+                  <p class="text-muted" style="max-width: 420px; margin-top: 8px;">Find educational drawings, diagrams, and figures on Wikimedia Commons to gather onto your reference board.</p>
+                </div>
+                
+                <div class="wiki-loading hidden" id="wiki-image-loading">
+                  <div class="skeleton-image-grid">
+                    <div class="skeleton-img-card"></div>
+                    <div class="skeleton-img-card"></div>
+                    <div class="skeleton-img-card"></div>
+                    <div class="skeleton-img-card"></div>
+                  </div>
+                </div>
+
+                <div class="image-results-grid hidden" id="image-results-grid">
+                  <!-- Injected via app.js -->
+                </div>
+              </div>
+            </div>
+
+            <!-- PERSISTENT: Gathered Reference Board -->
+            <div class="gathered-board-panel glass-panel" id="gathered-board-panel">
+              <div class="card-header">
+                <h3 style="display:flex; align-items:center; gap:8px;">
+                  <i data-lucide="layout-grid" style="color:var(--accent-purple); width:20px; height:20px;"></i>
+                  Gathered Reference Board
+                </h3>
+                <span class="text-muted" id="gathered-board-count">0 Pinned Images</span>
+              </div>
+              <div class="gathered-board-grid scrollable" id="gathered-board-grid">
+                <!-- Pinned images go here -->
+              </div>
+            </div>
+
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <!-- ================= DIALOGS / MODALS ================= -->
+  
+  <!-- Add Routine Dialog -->
+  <dialog id="dialog-add-routine" class="modal-dialog glass-panel">
+    <div class="dialog-header">
+      <h3>Add Routine Event</h3>
+      <button class="btn-close" id="btn-close-routine-dialog">&times;</button>
+    </div>
+    <form id="form-add-routine" method="dialog">
+      <div class="form-group">
+        <label for="routine-name">Event Name</label>
+        <input type="text" id="routine-name" placeholder="e.g., Math Study, Morning Exercise, Coding Practice" required>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="routine-start-time">Start Time</label>
+          <input type="time" id="routine-start-time" required>
+        </div>
+        <div class="form-group">
+          <label for="routine-end-time">End Time</label>
+          <input type="time" id="routine-end-time" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Active Days</label>
+        <div class="days-checkbox-grid">
+          <label class="checkbox-label"><input type="checkbox" name="routine-days" value="Mon"> Mon</label>
+          <label class="checkbox-label"><input type="checkbox" name="routine-days" value="Tue"> Tue</label>
+          <label class="checkbox-label"><input type="checkbox" name="routine-days" value="Wed"> Wed</label>
+          <label class="checkbox-label"><input type="checkbox" name="routine-days" value="Thu"> Thu</label>
+          <label class="checkbox-label"><input type="checkbox" name="routine-days" value="Fri"> Fri</label>
+          <label class="checkbox-label"><input type="checkbox" name="routine-days" value="Sat"> Sat</label>
+          <label class="checkbox-label"><input type="checkbox" name="routine-days" value="Sun"> Sun</label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="routine-category">Category</label>
+        <select id="routine-category">
+          <option value="study">Study Session</option>
+          <option value="break">Rest / Break</option>
+          <option value="hobby">Hobby / Activity</option>
+          <option value="chore">Routine Chores</option>
+        </select>
+      </div>
+
+      <div class="dialog-actions">
+        <button type="button" class="btn btn-secondary" id="btn-cancel-routine-dialog">Cancel</button>
+        <button type="submit" class="btn btn-primary">Create Event</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Add Project Dialog -->
+  <dialog id="dialog-add-project" class="modal-dialog glass-panel">
+    <div class="dialog-header">
+      <h3>Create New Project</h3>
+      <button class="btn-close" id="btn-close-project-dialog">&times;</button>
+    </div>
+    <form id="form-add-project" method="dialog">
+      <div class="form-group">
+        <label for="project-title">Project Title</label>
+        <input type="text" id="project-title" placeholder="e.g., Biology Lab Report, Science Fair, React App" required>
+      </div>
+
+      <div class="form-group">
+        <label for="project-desc">Description</label>
+        <textarea id="project-desc" placeholder="Brief outline of project scope and goals..."></textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="project-deadline">Deadline</label>
+          <input type="date" id="project-deadline" required>
+        </div>
+        <div class="form-group">
+          <label for="project-priority">Priority</label>
+          <select id="project-priority">
+            <option value="high">High Priority</option>
+            <option value="medium" selected>Medium Priority</option>
+            <option value="low">Low Priority</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="dialog-actions">
+        <button type="button" class="btn btn-secondary" id="btn-cancel-project-dialog">Cancel</button>
+        <button type="submit" class="btn btn-primary">Create Project</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Timer Settings Dialog -->
+  <dialog id="dialog-timer-settings" class="modal-dialog glass-panel">
+    <div class="dialog-header">
+      <h3>Timer Settings</h3>
+      <button class="btn-close" id="btn-close-settings-dialog">&times;</button>
+    </div>
+    <form id="form-timer-settings" method="dialog">
+      <div class="form-group">
+        <label for="setting-pomodoro">Focus Duration (minutes)</label>
+        <input type="number" id="setting-pomodoro" min="1" max="180" required>
+      </div>
+
+      <div class="form-group">
+        <label for="setting-short-break">Short Break (minutes)</label>
+        <input type="number" id="setting-short-break" min="1" max="60" required>
+      </div>
+
+      <div class="form-group">
+        <label for="setting-long-break">Long Break (minutes)</label>
+        <input type="number" id="setting-long-break" min="1" max="120" required>
+      </div>
+
+      <div class="form-group checkbox-form-group">
+        <label class="checkbox-label">
+          <input type="checkbox" id="setting-auto-start"> Auto-start breaks and focus sessions
+        </label>
+      </div>
+
+      <div style="border-top: 1px solid var(--glass-border); margin: 16px 0; padding-top: 16px;">
+        <h4 style="margin-bottom: 8px; color: #fff; font-size: 0.9rem;">YouTube API Integration</h4>
+        <div class="form-group">
+          <label for="setting-yt-api-key">YouTube Data API Key</label>
+          <input type="password" id="setting-yt-api-key" placeholder="Enter your YouTube v3 API Key..." style="width: 100%; border-radius: var(--radius-sm); border: 1px solid var(--glass-border); background: rgba(5,4,8,0.2); padding: 8px 12px; color: #fff; font-family: inherit; font-size: 0.85rem; outline: none;">
+          <span class="text-muted" style="font-size:0.75rem; margin-top:4px; display:block;">Allows high-speed search directly from YouTube servers.</span>
+        </div>
+      </div>
+
+      <div class="dialog-actions">
+        <button type="button" class="btn btn-secondary" id="btn-cancel-settings-dialog">Cancel</button>
+        <button type="submit" class="btn btn-primary">Save Settings</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Book Details Modal -->
+  <dialog id="dialog-book-details" class="modal-dialog glass-panel" style="max-width: 600px; width: 90%;">
+    <div class="dialog-header">
+      <h3 id="book-detail-title">eBook Details</h3>
+      <button class="btn-close" id="btn-close-book-dialog">&times;</button>
+    </div>
+    <div class="dialog-body" style="display: flex; flex-direction: column; gap: 20px; padding: 20px 0;">
+      <div class="book-detail-main" style="display: flex; gap: 20px;">
+        <div class="book-detail-cover" style="width: 120px; height: 180px; flex-shrink: 0; background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: var(--radius-sm); overflow: hidden; display: flex; align-items: center; justify-content: center;">
+          <img id="book-detail-img" src="" alt="Book Cover" style="width:100%; height:100%; object-fit:cover;">
+        </div>
+        <div class="book-detail-info" style="display: flex; flex-direction: column; gap: 8px;">
+          <h4 id="book-detail-heading" style="font-size:1.2rem; color:#fff;">Book Title</h4>
+          <p id="book-detail-author" class="text-muted" style="font-weight: 500;">Author Name</p>
+          <div style="margin-top: 8px; display: flex; flex-direction: column; gap: 4px; font-size: 0.85rem;">
+            <div><span class="text-muted">Subjects:</span> <span id="book-detail-subjects" style="color:var(--text-primary);">...</span></div>
+            <div><span class="text-muted">Languages:</span> <span id="book-detail-languages" style="color:var(--text-primary);">...</span></div>
+            <div><span class="text-muted">Downloads:</span> <span id="book-detail-downloads" style="color:var(--accent-amber); font-weight:600;">0</span></div>
+          </div>
+        </div>
+      </div>
+      
+      <div style="border-top: 1px solid var(--glass-border); padding-top: 16px;">
+        <h4 style="font-size:0.95rem; margin-bottom:12px; color:#fff;">Available Formats:</h4>
+        <div class="book-formats-list" id="book-formats-list" style="display: flex; flex-direction: column; gap: 10px;">
+          <!-- Links injected here -->
+        </div>
+      </div>
+    </div>
+    <div class="dialog-actions" style="margin-top:0;">
+      <button type="button" class="btn btn-secondary" id="btn-pin-book">
+        <i data-lucide="pin"></i> <span>Pin Reference</span>
+      </button>
+      <button type="button" class="btn btn-primary" id="btn-close-book-dialog-footer">Close</button>
+    </div>
+  </dialog>
+
+  <!-- Add Custom Resource Dialog -->
+  <dialog id="dialog-add-resource" class="modal-dialog glass-panel">
+    <div class="dialog-header">
+      <h3>Add Study Resource</h3>
+      <button class="btn-close" id="btn-close-resource-dialog-x">&times;</button>
+    </div>
+    <form id="form-add-resource" method="dialog">
+      <div class="form-group">
+        <label for="resource-title">Resource Title</label>
+        <input type="text" id="resource-title" placeholder="e.g., MIT Calculus Lecture 1, React Hooks Cheat Sheet" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="resource-url">Resource URL</label>
+        <input type="url" id="resource-url" placeholder="e.g., https://www.youtube.com/watch?v=..." required>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="resource-subject">Subject</label>
+          <select id="resource-subject">
+            <option value="cs">Computer Science</option>
+            <option value="math">Mathematics</option>
+            <option value="science">Science & Physics</option>
+            <option value="humanities">Humanities & Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="resource-type">Resource Type</label>
+          <select id="resource-type">
+            <option value="video">Video Course / Lecture</option>
+            <option value="textbook">Textbook / Document</option>
+            <option value="lab">Interactive Lab / Simulation</option>
+            <option value="article">Article / Cheat Sheet</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="dialog-actions">
+        <button type="button" class="btn btn-secondary" id="btn-cancel-resource-dialog">Cancel</button>
+        <button type="submit" class="btn btn-primary">Add Bookmark</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- In-App Video Theater Dialog -->
+  <dialog id="dialog-video-player" class="modal-dialog glass-panel" style="max-width: 800px; width: 95%; padding: 0; overflow: hidden; background: #000;">
+    <div class="dialog-header" style="padding: 12px 20px; background: rgba(0,0,0,0.5); border-bottom: 1px solid var(--glass-border); display: flex; justify-content: space-between; align-items: center; position: absolute; top:0; left:0; right:0; z-index:100;">
+      <h3 style="font-size:1rem; color:#fff;" id="video-player-title">Study Hub Theater</h3>
+      <button class="btn-close" id="btn-close-video-player" style="color:#fff;">&times;</button>
+    </div>
+    <div style="width: 100%; aspect-ratio: 16/9; margin-top: 48px; background:#000; position:relative;" id="video-player-container">
+      <div id="video-player-target"></div>
+    </div>
+  </dialog>
+
+  <!-- In-App Interactive Lab Dialog -->
+  <dialog id="dialog-lab-player" class="modal-dialog glass-panel" style="max-width: 950px; width: 98%; height: 90vh; padding: 0; overflow: hidden; background: #12182c;">
+    <div class="dialog-header" style="padding: 12px 20px; border-bottom: 1px solid var(--glass-border); display: flex; justify-content: space-between; align-items: center;">
+      <h3 style="font-size:1.1rem; color:#fff;" id="lab-player-title">Interactive Study Lab</h3>
+      <button class="btn-close" id="btn-close-lab-player">&times;</button>
+    </div>
+    <div style="flex: 1; position: relative; background: #fff;">
+      <iframe id="lab-player-iframe" src="" style="width: 100%; height: 100%; border: 0;" allowfullscreen></iframe>
+    </div>
+  </dialog>
+
+
+
+  <!-- Wiki Image Dialog -->
+  <dialog id="dialog-wiki-image" class="modal-dialog glass-panel image-preview-dialog">
+    <div class="dialog-header">
+      <h3 id="wiki-image-title">Wikipedia Image Preview</h3>
+      <button class="btn-close" id="btn-close-image-dialog">&times;</button>
+    </div>
+    <div class="dialog-image-body">
+      <img id="wiki-preview-img" src="" alt="Wikipedia Image Preview">
+    </div>
+  </dialog>
+
+  <!-- Floating Quick Timer Widget -->
+  <div class="floating-timer-widget glass-panel hidden" id="floating-timer-widget">
+    <div class="widget-info">
+      <span class="widget-mode" id="floating-mode">Focus</span>
+      <span class="widget-time" id="floating-time">25:00</span>
+    </div>
+    <button class="widget-btn" id="floating-toggle" title="Play/Pause">
+      <i data-lucide="play"></i>
+    </button>
+    <button class="widget-btn" id="floating-maximize" title="Go to timer page">
+      <i data-lucide="maximize-2"></i>
+    </button>
+  </div>
+
+  <!-- Scripts -->
+  <script src="app.js"></script>
+</body>
+</html>
